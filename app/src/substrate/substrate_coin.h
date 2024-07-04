@@ -1,5 +1,5 @@
 /*******************************************************************************
- *  (c) 2019 - 2023 Zondax AG
+ *  (c) 2019 - 2024 Zondax AG
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -19,13 +19,15 @@
 extern "C" {
 #endif
 
-#define COIN_ADDR_TYPE 2
-#define CLA 0x99
+#define COIN_ADDR_TYPE 42
+#define CLA 0xBD
+
+#define INS_SIGN_RAW 0x03
 
 #define HDPATH_LEN_DEFAULT 5
 #define HDPATH_0_DEFAULT (0x80000000 | 0x2c)
-#define HDPATH_1_DEFAULT (0x80000000 | 0x1b2)
-#define HDPATH_1_RECOVERY (0x80000000 | 0x162)
+#define HDPATH_1_DEFAULT (0x80000000 | 0x3eb)
+#define HDPATH_1_RECOVERY (0x80000000 |)
 
 #define HDPATH_2_DEFAULT (0x80000000u | 0u)
 #define HDPATH_3_DEFAULT (0u)
@@ -53,21 +55,21 @@ typedef enum {
 #define SUPPORTED_TX_VERSION_CURRENT LEDGER_MAJOR_VERSION
 #define SUPPORTED_TX_VERSION_PREVIOUS (LEDGER_MAJOR_VERSION - 1)
 #define SUPPORTED_SPEC_VERSION (LEDGER_MINOR_VERSION + 0)
-#define SUPPORTED_MINIMUM_SPEC_VERSION 9000
+#define SUPPORTED_MINIMUM_SPEC_VERSION 1
 
-#define COIN_AMOUNT_DECIMAL_PLACES 12
+#define COIN_AMOUNT_DECIMAL_PLACES 10
 
-#define COIN_GENESIS_HASH "b0a8d493285c2df73290dfb7e61f870f17b41801197a149ca93654499ea3dafe"
-#define COIN_NAME "Kusama"
-#define COIN_TICKER "KSM "
+#define COIN_GENESIS_HASH "2ff566103dfac49018be96ef1adfac8dd1d6852ef65c984f0ee6d6a105d3aaef"
+#define COIN_NAME "Nodle"
+#define COIN_TICKER "BITS "
 
-#define COIN_SECRET_REQUIRED_CLICKS 10
-
-#define MENU_MAIN_APP_LINE1 "Kusama"
+#define MENU_MAIN_APP_LINE1 "Nodle"
 #define MENU_MAIN_APP_LINE2 "Ready"
-#define MENU_MAIN_APP_LINE2_SECRET "KSM RECOVERY"
-#define APPVERSION_LINE1 "Kusama"
+#define APPVERSION_LINE1 "Nodle"
 #define APPVERSION_LINE2 "v" APPVERSION
+
+#define ACCOUNT_DEFAULT "Legacy"
+#define ACCOUNT_SECONDARY "Crowdloan"
 
 #ifdef __cplusplus
 }
