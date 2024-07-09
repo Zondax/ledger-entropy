@@ -1,5 +1,5 @@
 /** ******************************************************************************
- * (c) 2018 - 2022 Zondax AG
+ *  (c) 2020 Zondax GmbH
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -14,22 +14,28 @@
  *  limitations under the License.
  ******************************************************************************* */
 
-import Zemu from '@zondax/zemu'
+import Zemu, { DEFAULT_START_OPTIONS } from '@zondax/zemu'
 import { newSubstrateApp } from '@zondax/ledger-substrate'
-import { defaultOptions, models } from './common'
-import { txBalances_transfer, txProxy_proxy, txSession_setKeys, txStaking_nominate, txUtility_batch } from './zemu_blobs'
+import { APP_SEED, models } from './common'
 
-// @ts-ignore
+// @ts-expect-error missing typings
 import ed25519 from 'ed25519-supercop'
-// @ts-ignore
 import { blake2bFinal, blake2bInit, blake2bUpdate } from 'blakejs'
+import { txBalances_transferAllowDeath, txSession_setKeys, txStaking_nominate, txProxy_proxy, txUtility_batch } from './zemu_blobs'
+
+const defaultOptions = {
+  ...DEFAULT_START_OPTIONS,
+  logging: true,
+  custom: `-s "${APP_SEED}"`,
+  X11: false,
+}
 
 jest.setTimeout(180000)
 
 const TXNS = [
   {
     name: 'balances_transfer',
-    blob: txBalances_transfer,
+    blob: txBalances_transferAllowDeath,
   },
   {
     name: 'session_setkeys',
@@ -54,7 +60,7 @@ describe.each(TXNS)('Transactions', function (data) {
     const sim = new Zemu(m.path)
     try {
       await sim.start({ ...defaultOptions, model: m.name })
-      const app = newSubstrateApp(sim.getTransport(), 'Kusama')
+      const app = newSubstrateApp(sim.getTransport(), 'Entropy')
       const pathAccount = 0x80000000
       const pathChange = 0x80000000
       const pathIndex = 0x80000000
@@ -68,6 +74,7 @@ describe.each(TXNS)('Transactions', function (data) {
       const signatureRequest = app.sign(pathAccount, pathChange, pathIndex, txBlob)
       // Wait until we are not in the main menu
       await sim.waitUntilScreenIsNot(sim.getMainMenuSnapshot())
+
       await sim.compareSnapshotsAndApprove('.', `${m.prefix.toLowerCase()}-${data.name}`)
 
       const signatureResponse = await signatureRequest
@@ -91,11 +98,11 @@ describe.each(TXNS)('Transactions', function (data) {
   })
 })
 
-test.concurrent.each(models)('balances transfer expert', async function (m) {
+test.only.each(models)('balances transfer expert', async function (m) {
   const sim = new Zemu(m.path)
   try {
     await sim.start({ ...defaultOptions, model: m.name })
-    const app = newSubstrateApp(sim.getTransport(), 'Kusama')
+    const app = newSubstrateApp(sim.getTransport(), 'Entropy')
     const pathAccount = 0x80000000
     const pathChange = 0x80000000
     const pathIndex = 0x80000000
@@ -103,7 +110,7 @@ test.concurrent.each(models)('balances transfer expert', async function (m) {
     // Change to expert mode
     await sim.toggleExpertMode()
 
-    const txBlob = Buffer.from(txBalances_transfer, 'hex')
+    const txBlob = Buffer.from(txBalances_transferAllowDeath, 'hex')
 
     const responseAddr = await app.getAddress(pathAccount, pathChange, pathIndex)
     const pubKey = Buffer.from(responseAddr.pubKey, 'hex')

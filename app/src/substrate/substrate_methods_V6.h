@@ -37,6 +37,7 @@ extern "C" {
 #define PD_CALL_STAKINGEXTENSION_V6 12
 #define PD_CALL_SESSION_V6 20
 #define PD_CALL_PROXY_V6 44
+#define PD_CALL_REGISTRY_V6 51
 #define PD_CALL_PROGRAMS_V6 53
 
 #define PD_CALL_UTILITY_BATCH_V6 0
@@ -200,14 +201,6 @@ typedef struct {
     pd_AccountId_t controller;
 } pd_staking_update_payee_V6_t;
 
-#define PD_CALL_STAKING_RESTORE_LEDGER_V6 29
-typedef struct {
-    pd_AccountId_t stash;
-    pd_OptionAccountId_t maybe_controller;
-    pd_OptionBalance_t maybe_total;
-    pd_OptionBoundedVecUnlockChunkBalanceOfTMaxUnlockingChunks_t maybe_unlocking;
-} pd_staking_restore_ledger_V6_t;
-
 #define PD_CALL_STAKINGEXTENSION_CHANGE_ENDPOINT_V6 0
 typedef struct {
     pd_Vecu8_t endpoint;
@@ -265,6 +258,30 @@ typedef struct {
     pd_Call_t call;
 } pd_proxy_proxy_announced_V6_t;
 
+#define PD_CALL_REGISTRY_REGISTER_V6 0
+typedef struct {
+    pd_AccountId_t program_modification_account;
+    pd_KeyVisibility_t key_visibility;
+    pd_BoundedVecProgramInstanceTMaxProgramHashes_t programs_data;
+} pd_registry_register_V6_t;
+
+#define PD_CALL_REGISTRY_PRUNE_REGISTRATION_V6 1
+typedef struct {
+} pd_registry_prune_registration_V6_t;
+
+#define PD_CALL_REGISTRY_CHANGE_PROGRAM_INSTANCE_V6 2
+typedef struct {
+    pd_VerifyingKey_t verifying_key;
+    pd_BoundedVecProgramInstanceTMaxProgramHashes_t new_program_instance;
+} pd_registry_change_program_instance_V6_t;
+
+#define PD_CALL_REGISTRY_CONFIRM_REGISTER_V6 3
+typedef struct {
+    pd_AccountId_t sig_req_account;
+    pd_u8_t signing_subgroup;
+    pd_BoundedVecu8_t verifying_key;
+} pd_registry_confirm_register_V6_t;
+
 #define PD_CALL_PROGRAMS_SET_PROGRAM_V6 0
 typedef struct {
     pd_Vecu8_t new_program;
@@ -313,7 +330,6 @@ typedef union {
     pd_staking_set_min_commission_V6_t staking_set_min_commission_V6;
     pd_staking_payout_stakers_by_page_V6_t staking_payout_stakers_by_page_V6;
     pd_staking_update_payee_V6_t staking_update_payee_V6;
-    pd_staking_restore_ledger_V6_t staking_restore_ledger_V6;
     pd_stakingextension_change_endpoint_V6_t stakingextension_change_endpoint_V6;
     pd_stakingextension_change_threshold_accounts_V6_t stakingextension_change_threshold_accounts_V6;
     pd_stakingextension_withdraw_unbonded_V6_t stakingextension_withdraw_unbonded_V6;
@@ -324,6 +340,10 @@ typedef union {
     pd_proxy_remove_announcement_V6_t proxy_remove_announcement_V6;
     pd_proxy_reject_announcement_V6_t proxy_reject_announcement_V6;
     pd_proxy_proxy_announced_V6_t proxy_proxy_announced_V6;
+    pd_registry_register_V6_t registry_register_V6;
+    pd_registry_prune_registration_V6_t registry_prune_registration_V6;
+    pd_registry_change_program_instance_V6_t registry_change_program_instance_V6;
+    pd_registry_confirm_register_V6_t registry_confirm_register_V6;
     pd_programs_set_program_V6_t programs_set_program_V6;
     pd_programs_remove_program_V6_t programs_remove_program_V6;
 #endif

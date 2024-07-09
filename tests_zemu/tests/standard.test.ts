@@ -1,5 +1,5 @@
 /** ******************************************************************************
- * (c) 2018 - 2022 Zondax AG
+ *  (c) 2020 Zondax GmbH
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -14,14 +14,21 @@
  *  limitations under the License.
  ******************************************************************************* */
 
-import Zemu, { ButtonKind, zondaxMainmenuNavigation } from '@zondax/zemu'
+import Zemu, { ButtonKind, DEFAULT_START_OPTIONS, zondaxMainmenuNavigation } from '@zondax/zemu'
 import { newSubstrateApp } from '@zondax/ledger-substrate'
-import { defaultOptions, models } from './common'
+import { APP_SEED, models } from './common'
+
+const defaultOptions = {
+  ...DEFAULT_START_OPTIONS,
+  logging: true,
+  custom: `-s "${APP_SEED}"`,
+  X11: false,
+}
+
+const expected_address = '5FfTe7upA1JD6zH82MJShcBohMjufLxkEXQD575QPqQib9DL'
+const expected_pk = '9f366ed7fd60878492ef78b2aaeb2d31afcccba895978ef1453d5432d9d28af0'
 
 jest.setTimeout(180000)
-
-const expected_address = 'dEqHzojBEmY5c9b62Z6kTk3sgbuyHPcxHAPP8sTKU8WBzLZ'
-const expected_pk = '430529d7adb0368f58d74fb32e78dff6a7dcf6258505d0f12efce87dd9c4708a'
 
 describe('Standard', function () {
   test.concurrent.each(models)('can start and stop container', async function (m) {
@@ -36,7 +43,7 @@ describe('Standard', function () {
   test.concurrent.each(models)('main menu', async function (m) {
     const sim = new Zemu(m.path)
     try {
-      const mainmenuNavigation = zondaxMainmenuNavigation(m.name, [1, 0, 0, 5, -6])
+      const mainmenuNavigation = zondaxMainmenuNavigation(m.name)
       await sim.start({ ...defaultOptions, model: m.name })
       await sim.navigateAndCompareSnapshots('.', `${m.prefix.toLowerCase()}-mainmenu`, mainmenuNavigation.schedule)
     } finally {
@@ -48,7 +55,7 @@ describe('Standard', function () {
     const sim = new Zemu(m.path)
     try {
       await sim.start({ ...defaultOptions, model: m.name })
-      const app = newSubstrateApp(sim.getTransport(), 'Kusama')
+      const app = newSubstrateApp(sim.getTransport(), 'Entropy')
       const resp = await app.getVersion()
 
       console.log(resp)
@@ -68,7 +75,7 @@ describe('Standard', function () {
     const sim = new Zemu(m.path)
     try {
       await sim.start({ ...defaultOptions, model: m.name })
-      const app = newSubstrateApp(sim.getTransport(), 'Kusama')
+      const app = newSubstrateApp(sim.getTransport(), 'Entropy')
 
       const resp = await app.getAddress(0x80000000, 0x80000000, 0x80000000)
 
@@ -93,7 +100,7 @@ describe('Standard', function () {
         approveKeyword: m.name === 'stax' ? 'QR' : '',
         approveAction: ButtonKind.ApproveTapButton,
       })
-      const app = newSubstrateApp(sim.getTransport(), 'Kusama')
+      const app = newSubstrateApp(sim.getTransport(), 'Entropy')
 
       const respRequest = app.getAddress(0x80000000, 0x80000000, 0x80000000, true)
       // Wait until we are not in the main menu
@@ -122,7 +129,7 @@ describe('Standard', function () {
         model: m.name,
         rejectKeyword: m.name === 'stax' ? 'QR' : '',
       })
-      const app = newSubstrateApp(sim.getTransport(), 'Kusama')
+      const app = newSubstrateApp(sim.getTransport(), 'Entropy')
 
       const respRequest = app.getAddress(0x80000000, 0x80000000, 0x80000000, true)
       // Wait until we are not in the main menu

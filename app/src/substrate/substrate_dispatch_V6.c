@@ -411,16 +411,6 @@ __Z_INLINE parser_error_t _readMethod_staking_update_payee_V6(
     return parser_ok;
 }
 
-__Z_INLINE parser_error_t _readMethod_staking_restore_ledger_V6(
-    parser_context_t* c, pd_staking_restore_ledger_V6_t* m)
-{
-    CHECK_ERROR(_readAccountId(c, &m->stash))
-    CHECK_ERROR(_readOptionAccountId(c, &m->maybe_controller))
-    CHECK_ERROR(_readOptionBalance(c, &m->maybe_total))
-    CHECK_ERROR(_readOptionBoundedVecUnlockChunkBalanceOfTMaxUnlockingChunks(c, &m->maybe_unlocking))
-    return parser_ok;
-}
-
 __Z_INLINE parser_error_t _readMethod_stakingextension_change_endpoint_V6(
     parser_context_t* c, pd_stakingextension_change_endpoint_V6_t* m)
 {
@@ -544,6 +534,40 @@ __Z_INLINE parser_error_t _readMethod_proxy_proxy_announced_V6(
     CHECK_ERROR(_readAccountIdLookupOfT(c, &m->real))
     CHECK_ERROR(_readOptionProxyType(c, &m->force_proxy_type))
     CHECK_ERROR(_readCall(c, &m->call))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_registry_register_V6(
+    parser_context_t* c, pd_registry_register_V6_t* m)
+{
+    CHECK_ERROR(_readAccountId(c, &m->program_modification_account))
+    CHECK_ERROR(_readKeyVisibility(c, &m->key_visibility))
+    CHECK_ERROR(_readBoundedVecProgramInstanceTMaxProgramHashes(c, &m->programs_data))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_registry_prune_registration_V6(
+    parser_context_t* c, pd_registry_prune_registration_V6_t* m)
+{
+    UNUSED(c);
+    UNUSED(m);
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_registry_change_program_instance_V6(
+    parser_context_t* c, pd_registry_change_program_instance_V6_t* m)
+{
+    CHECK_ERROR(_readVerifyingKey(c, &m->verifying_key))
+    CHECK_ERROR(_readBoundedVecProgramInstanceTMaxProgramHashes(c, &m->new_program_instance))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_registry_confirm_register_V6(
+    parser_context_t* c, pd_registry_confirm_register_V6_t* m)
+{
+    CHECK_ERROR(_readAccountId(c, &m->sig_req_account))
+    CHECK_ERROR(_readu8(c, &m->signing_subgroup))
+    CHECK_ERROR(_readBoundedVecu8(c, &m->verifying_key))
     return parser_ok;
 }
 
@@ -733,9 +757,6 @@ parser_error_t _readMethod_V6(
     case 2843: /* module 11 call 27 */
         CHECK_ERROR(_readMethod_staking_update_payee_V6(c, &method->basic.staking_update_payee_V6))
         break;
-    case 2845: /* module 11 call 29 */
-        CHECK_ERROR(_readMethod_staking_restore_ledger_V6(c, &method->basic.staking_restore_ledger_V6))
-        break;
     case 3072: /* module 12 call 0 */
         CHECK_ERROR(_readMethod_stakingextension_change_endpoint_V6(c, &method->basic.stakingextension_change_endpoint_V6))
         break;
@@ -781,6 +802,18 @@ parser_error_t _readMethod_V6(
     case 11273: /* module 44 call 9 */
         CHECK_ERROR(_readMethod_proxy_proxy_announced_V6(c, &method->basic.proxy_proxy_announced_V6))
         break;
+    case 13056: /* module 51 call 0 */
+        CHECK_ERROR(_readMethod_registry_register_V6(c, &method->basic.registry_register_V6))
+        break;
+    case 13057: /* module 51 call 1 */
+        CHECK_ERROR(_readMethod_registry_prune_registration_V6(c, &method->basic.registry_prune_registration_V6))
+        break;
+    case 13058: /* module 51 call 2 */
+        CHECK_ERROR(_readMethod_registry_change_program_instance_V6(c, &method->basic.registry_change_program_instance_V6))
+        break;
+    case 13059: /* module 51 call 3 */
+        CHECK_ERROR(_readMethod_registry_confirm_register_V6(c, &method->basic.registry_confirm_register_V6))
+        break;
     case 13568: /* module 53 call 0 */
         CHECK_ERROR(_readMethod_programs_set_program_V6(c, &method->basic.programs_set_program_V6))
         break;
@@ -820,6 +853,8 @@ const char* _getMethod_ModuleName_V6(uint8_t moduleIdx)
         return STR_MO_STAKINGEXTENSION;
     case 44:
         return STR_MO_PROXY;
+    case 51:
+        return STR_MO_REGISTRY;
     case 53:
         return STR_MO_PROGRAMS;
 #endif
@@ -950,8 +985,6 @@ const char* _getMethod_Name_V6_ParserFull(uint16_t callPrivIdx)
         return STR_ME_PAYOUT_STAKERS_BY_PAGE;
     case 2843: /* module 11 call 27 */
         return STR_ME_UPDATE_PAYEE;
-    case 2845: /* module 11 call 29 */
-        return STR_ME_RESTORE_LEDGER;
     case 3072: /* module 12 call 0 */
         return STR_ME_CHANGE_ENDPOINT;
     case 3073: /* module 12 call 1 */
@@ -982,6 +1015,14 @@ const char* _getMethod_Name_V6_ParserFull(uint16_t callPrivIdx)
         return STR_ME_REJECT_ANNOUNCEMENT;
     case 11273: /* module 44 call 9 */
         return STR_ME_PROXY_ANNOUNCED;
+    case 13056: /* module 51 call 0 */
+        return STR_ME_REGISTER;
+    case 13057: /* module 51 call 1 */
+        return STR_ME_PRUNE_REGISTRATION;
+    case 13058: /* module 51 call 2 */
+        return STR_ME_CHANGE_PROGRAM_INSTANCE;
+    case 13059: /* module 51 call 3 */
+        return STR_ME_CONFIRM_REGISTER;
     case 13568: /* module 53 call 0 */
         return STR_ME_SET_PROGRAM;
     case 13569: /* module 53 call 1 */
@@ -1104,8 +1145,6 @@ uint8_t _getMethod_NumItems_V6(uint8_t moduleIdx, uint8_t callIdx)
         return 3;
     case 2843: /* module 11 call 27 */
         return 1;
-    case 2845: /* module 11 call 29 */
-        return 4;
     case 3072: /* module 12 call 0 */
         return 1;
     case 3073: /* module 12 call 1 */
@@ -1136,6 +1175,14 @@ uint8_t _getMethod_NumItems_V6(uint8_t moduleIdx, uint8_t callIdx)
         return 2;
     case 11273: /* module 44 call 9 */
         return 4;
+    case 13056: /* module 51 call 0 */
+        return 3;
+    case 13057: /* module 51 call 1 */
+        return 0;
+    case 13058: /* module 51 call 2 */
+        return 2;
+    case 13059: /* module 51 call 3 */
+        return 3;
     case 13568: /* module 53 call 0 */
         return 4;
     case 13569: /* module 53 call 1 */
@@ -1547,19 +1594,6 @@ const char* _getMethod_ItemName_V6(uint8_t moduleIdx, uint8_t callIdx, uint8_t i
         default:
             return NULL;
         }
-    case 2845: /* module 11 call 29 */
-        switch (itemIdx) {
-        case 0:
-            return STR_IT_stash;
-        case 1:
-            return STR_IT_maybe_controller;
-        case 2:
-            return STR_IT_maybe_total;
-        case 3:
-            return STR_IT_maybe_unlocking;
-        default:
-            return NULL;
-        }
     case 3072: /* module 12 call 0 */
         switch (itemIdx) {
         case 0:
@@ -1700,6 +1734,42 @@ const char* _getMethod_ItemName_V6(uint8_t moduleIdx, uint8_t callIdx, uint8_t i
             return STR_IT_force_proxy_type;
         case 3:
             return STR_IT_call;
+        default:
+            return NULL;
+        }
+    case 13056: /* module 51 call 0 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_program_modification_account;
+        case 1:
+            return STR_IT_key_visibility;
+        case 2:
+            return STR_IT_programs_data;
+        default:
+            return NULL;
+        }
+    case 13057: /* module 51 call 1 */
+        switch (itemIdx) {
+        default:
+            return NULL;
+        }
+    case 13058: /* module 51 call 2 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_verifying_key;
+        case 1:
+            return STR_IT_new_program_instance;
+        default:
+            return NULL;
+        }
+    case 13059: /* module 51 call 3 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_sig_req_account;
+        case 1:
+            return STR_IT_signing_subgroup;
+        case 2:
+            return STR_IT_verifying_key;
         default:
             return NULL;
         }
@@ -2338,31 +2408,6 @@ parser_error_t _getMethod_ItemValue_V6(
         default:
             return parser_no_data;
         }
-    case 2845: /* module 11 call 29 */
-        switch (itemIdx) {
-        case 0: /* staking_restore_ledger_V6 - stash */;
-            return _toStringAccountId(
-                &m->basic.staking_restore_ledger_V6.stash,
-                outValue, outValueLen,
-                pageIdx, pageCount);
-        case 1: /* staking_restore_ledger_V6 - maybe_controller */;
-            return _toStringOptionAccountId(
-                &m->basic.staking_restore_ledger_V6.maybe_controller,
-                outValue, outValueLen,
-                pageIdx, pageCount);
-        case 2: /* staking_restore_ledger_V6 - maybe_total */;
-            return _toStringOptionBalance(
-                &m->basic.staking_restore_ledger_V6.maybe_total,
-                outValue, outValueLen,
-                pageIdx, pageCount);
-        case 3: /* staking_restore_ledger_V6 - maybe_unlocking */;
-            return _toStringOptionBoundedVecUnlockChunkBalanceOfTMaxUnlockingChunks(
-                &m->basic.staking_restore_ledger_V6.maybe_unlocking,
-                outValue, outValueLen,
-                pageIdx, pageCount);
-        default:
-            return parser_no_data;
-        }
     case 3072: /* module 12 call 0 */
         switch (itemIdx) {
         case 0: /* stakingextension_change_endpoint_V6 - endpoint */;
@@ -2608,6 +2653,66 @@ parser_error_t _getMethod_ItemValue_V6(
         default:
             return parser_no_data;
         }
+    case 13056: /* module 51 call 0 */
+        switch (itemIdx) {
+        case 0: /* registry_register_V6 - program_modification_account */;
+            return _toStringAccountId(
+                &m->basic.registry_register_V6.program_modification_account,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* registry_register_V6 - key_visibility */;
+            return _toStringKeyVisibility(
+                &m->basic.registry_register_V6.key_visibility,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* registry_register_V6 - programs_data */;
+            return _toStringBoundedVecProgramInstanceTMaxProgramHashes(
+                &m->basic.registry_register_V6.programs_data,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 13057: /* module 51 call 1 */
+        switch (itemIdx) {
+        default:
+            return parser_no_data;
+        }
+    case 13058: /* module 51 call 2 */
+        switch (itemIdx) {
+        case 0: /* registry_change_program_instance_V6 - verifying_key */;
+            return _toStringVerifyingKey(
+                &m->basic.registry_change_program_instance_V6.verifying_key,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* registry_change_program_instance_V6 - new_program_instance */;
+            return _toStringBoundedVecProgramInstanceTMaxProgramHashes(
+                &m->basic.registry_change_program_instance_V6.new_program_instance,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 13059: /* module 51 call 3 */
+        switch (itemIdx) {
+        case 0: /* registry_confirm_register_V6 - sig_req_account */;
+            return _toStringAccountId(
+                &m->basic.registry_confirm_register_V6.sig_req_account,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* registry_confirm_register_V6 - signing_subgroup */;
+            return _toStringu8(
+                &m->basic.registry_confirm_register_V6.signing_subgroup,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* registry_confirm_register_V6 - verifying_key */;
+            return _toStringBoundedVecu8(
+                &m->basic.registry_confirm_register_V6.verifying_key,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
     case 13568: /* module 53 call 0 */
         switch (itemIdx) {
         case 0: /* programs_set_program_V6 - new_program */;
@@ -2724,7 +2829,6 @@ bool _getMethod_IsNestingSupported_V6(uint8_t moduleIdx, uint8_t callIdx)
     case 2841: // Staking:Set min commission
     case 2842: // Staking:Payout stakers by page
     case 2843: // Staking:Update payee
-    case 2845: // Staking:Restore ledger
     case 3072: // StakingExtension:Change endpoint
     case 3073: // StakingExtension:Change threshold accounts
     case 3074: // StakingExtension:Withdraw Unbonded
@@ -2735,6 +2839,10 @@ bool _getMethod_IsNestingSupported_V6(uint8_t moduleIdx, uint8_t callIdx)
     case 11271: // Proxy:Remove announcement
     case 11272: // Proxy:Reject announcement
     case 11273: // Proxy:Proxy announced
+    case 13056: // Registry:Register
+    case 13057: // Registry:Prune registration
+    case 13058: // Registry:Change program instance
+    case 13059: // Registry:Confirm register
     case 13568: // Programs:Set program
     case 13569: // Programs:Remove program
         return false;

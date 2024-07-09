@@ -1,4 +1,4 @@
-# Nodle 6.100.x
+# Entropy 6.100.x
 
 ## System
 
@@ -107,7 +107,7 @@
 | Payout stakers by page     |                    | :heavy_check_mark: | :heavy_check_mark: |                    | `AccountId`validator_stash<br/>`EraIndex`era<br/>`Page`page<br/>                                                                                                                                                                          |
 | Update payee               |                    | :heavy_check_mark: | :heavy_check_mark: |                    | `AccountId`controller<br/>                                                                                                                                                                                                                |
 | Deprecate controller batch |                    |                    |                    |                    | `BoundedVecAccountIdMaxControllersInDeprecationBatch`controllers<br/>                                                                                                                                                                     |
-| Restore ledger             |                    | :heavy_check_mark: | :heavy_check_mark: |                    | `AccountId`stash<br/>`OptionAccountId`maybe_controller<br/>`OptionBalance`maybe_total<br/>`OptionBoundedVecUnlockChunkBalanceOfTMaxUnlockingChunks`maybe_unlocking<br/>                                                                   |
+| Restore ledger             |                    |                    |                    |                    | `AccountId`stash<br/>`OptionAccountId`maybe_controller<br/>`OptionBalance`maybe_total<br/>`OptionBoundedVecUnlockChunkBalanceOfTMaxUnlockingChunks`maybe_unlocking<br/>                                                                   |
 
 ## StakingExtension
 
@@ -401,12 +401,12 @@
 
 ## Registry
 
-| Name                    | Nano S | Nano S XL | Nano SP/X - Stax | Nesting | Arguments                                                                                                                                    |
-| ----------------------- | ------ | --------- | ---------------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| Register                |        |           |                  |         | `AccountId`program_modification_account<br/>`KeyVisibility`key_visibility<br/>`BoundedVecProgramInstanceTMaxProgramHashes`programs_data<br/> |
-| Prune registration      |        |           |                  |         |                                                                                                                                              |
-| Change program instance |        |           |                  |         | `VerifyingKey`verifying_key<br/>`BoundedVecProgramInstanceTMaxProgramHashes`new_program_instance<br/>                                        |
-| Confirm register        |        |           |                  |         | `AccountId`sig_req_account<br/>`u8`signing_subgroup<br/>`BoundedVecu8`verifying_key<br/>                                                     |
+| Name                    | Nano S | Nano S XL          | Nano SP/X - Stax   | Nesting | Arguments                                                                                                                                    |
+| ----------------------- | ------ | ------------------ | ------------------ | ------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| Register                |        | :heavy_check_mark: | :heavy_check_mark: |         | `AccountId`program_modification_account<br/>`KeyVisibility`key_visibility<br/>`BoundedVecProgramInstanceTMaxProgramHashes`programs_data<br/> |
+| Prune registration      |        | :heavy_check_mark: | :heavy_check_mark: |         |                                                                                                                                              |
+| Change program instance |        | :heavy_check_mark: | :heavy_check_mark: |         | `VerifyingKey`verifying_key<br/>`BoundedVecProgramInstanceTMaxProgramHashes`new_program_instance<br/>                                        |
+| Confirm register        |        | :heavy_check_mark: | :heavy_check_mark: |         | `AccountId`sig_req_account<br/>`u8`signing_subgroup<br/>`BoundedVecu8`verifying_key<br/>                                                     |
 
 ## Slashing
 

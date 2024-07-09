@@ -1,4 +1,4 @@
-# Nodle App
+# Entropy App
 
 ## General structure
 
@@ -109,7 +109,7 @@ The general structure of commands and responses is as follows:
 |         |          |                           | Sr25519 = 1       |
 | L       | byte (1) | Bytes in payload          | (depends)         |
 | Path[0] | byte (4) | Derivation Path Data      | 0x80000000 \| 44  |
-| Path[1] | byte (4) | Derivation Path Data      | 0x80000000 \| 1003 |
+| Path[1] | byte (4) | Derivation Path Data      | 0x80000000 \| 1312 |
 | Path[2] | byte (4) | Derivation Path Data      | ?                 |
 | Path[3] | byte (4) | Derivation Path Data      | ?                 |
 | Path[4] | byte (4) | Derivation Path Data      | ?                 |
@@ -148,7 +148,7 @@ All other packets/chunks contain data chunks that are described below
 | Field   | Type     | Content              | Expected          |
 | ------- | -------- | -------------------- | ----------------- |
 | Path[0] | byte (4) | Derivation Path Data | 0x80000000 \| 44  |
-| Path[1] | byte (4) | Derivation Path Data | 0x80000000 \| 1003 |
+| Path[1] | byte (4) | Derivation Path Data | 0x80000000 \| 1312 |
 | Path[2] | byte (4) | Derivation Path Data | ?                 |
 | Path[3] | byte (4) | Derivation Path Data | ?                 |
 | Path[4] | byte (4) | Derivation Path Data | ?                 |
@@ -192,7 +192,7 @@ All other packets/chunks contain data chunks that are described below
 | Field   | Type     | Content              | Expected          |
 | ------- | -------- | -------------------- | ----------------- |
 | Path[0] | byte (4) | Derivation Path Data | 0x80000000 \| 44  |
-| Path[1] | byte (4) | Derivation Path Data | 0x80000000 \| 1003 |
+| Path[1] | byte (4) | Derivation Path Data | 0x80000000 \| 1312 |
 | Path[2] | byte (4) | Derivation Path Data | ?                 |
 | Path[3] | byte (4) | Derivation Path Data | ?                 |
 | Path[4] | byte (4) | Derivation Path Data | ?                 |

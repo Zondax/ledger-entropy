@@ -26,7 +26,7 @@ extern "C" {
 
 #define HDPATH_LEN_DEFAULT 5
 #define HDPATH_0_DEFAULT (0x80000000 | 0x2c)
-#define HDPATH_1_DEFAULT (0x80000000 | 0x3eb)
+#define HDPATH_1_DEFAULT (0x80000000 | 0x520)
 #define HDPATH_1_RECOVERY (0x80000000 |)
 
 #define HDPATH_2_DEFAULT (0x80000000u | 0u)
@@ -60,16 +60,13 @@ typedef enum {
 #define COIN_AMOUNT_DECIMAL_PLACES 10
 
 #define COIN_GENESIS_HASH "2ff566103dfac49018be96ef1adfac8dd1d6852ef65c984f0ee6d6a105d3aaef"
-#define COIN_NAME "Nodle"
+#define COIN_NAME "Entropy"
 #define COIN_TICKER "BITS "
 
-#define MENU_MAIN_APP_LINE1 "Nodle"
+#define MENU_MAIN_APP_LINE1 "Entropy"
 #define MENU_MAIN_APP_LINE2 "Ready"
-#define APPVERSION_LINE1 "Nodle"
+#define APPVERSION_LINE1 "Entropy"
 #define APPVERSION_LINE2 "v" APPVERSION
-
-#define ACCOUNT_DEFAULT "Legacy"
-#define ACCOUNT_SECONDARY "Crowdloan"
 
 #ifdef __cplusplus
 }

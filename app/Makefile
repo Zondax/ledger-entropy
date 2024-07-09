@@ -29,8 +29,6 @@ include $(BOLOS_SDK)/Makefile.defines
 # Set the default value for PRODUCTION_BUILD to 0 if not already defined
 PRODUCTION_BUILD ?= 0
 
-DEFINES += APP_ACCOUNT_MODE_ENABLED
-
 $(info ************ TARGET_NAME  = [$(TARGET_NAME)])
 
 # Display whether this is a production build or for internal use
@@ -69,14 +67,14 @@ DEFINES += APP_STANDARD
 ifneq ($(TARGET_NAME),TARGET_NANOS)
 DEFINES += SUBSTRATE_PARSER_FULL
 endif
-APPNAME = "Nodle"
-APPPATH = "44'/1003'" --path "44'/NaN'"
+APPNAME = "Entropy"
+APPPATH = "44'/1312'"
 
 else ifeq ($(COIN),BITS_XL)
 # XL app configuration
 DEFINES += APP_STANDARD SUBSTRATE_PARSER_FULL
-APPNAME = "Nodle XL"
-APPPATH = "44'/1003'" --path "44'/NaN'"
+APPNAME = "Entropy XL"
+APPPATH = "44'/1312'"
 
 else
 define error_message
