@@ -22,25 +22,26 @@
 extern "C" {
 #endif
 
-#include "substrate_types.h"
-#include "substrate_types_V6.h"
 #include <stddef.h>
 #include <stdint.h>
+
+#include "substrate_types.h"
+#include "substrate_types_V6.h"
 #ifdef LEDGER_SPECIFIC
 #include "bolos_target.h"
 #endif
 
-#define PD_CALL_SYSTEM_V6 1
-#define PD_CALL_UTILITY_V6 2
-#define PD_CALL_BALANCES_V6 7
-#define PD_CALL_STAKING_V6 11
+#define PD_CALL_SYSTEM_V6           1
+#define PD_CALL_UTILITY_V6          2
+#define PD_CALL_BALANCES_V6         7
+#define PD_CALL_STAKING_V6          11
 #define PD_CALL_STAKINGEXTENSION_V6 12
-#define PD_CALL_SESSION_V6 20
-#define PD_CALL_PROXY_V6 44
-#define PD_CALL_REGISTRY_V6 51
-#define PD_CALL_PROGRAMS_V6 53
+#define PD_CALL_SESSION_V6          20
+#define PD_CALL_PROXY_V6            44
+#define PD_CALL_REGISTRY_V6         51
+#define PD_CALL_PROGRAMS_V6         53
 
-#define PD_CALL_UTILITY_BATCH_V6 0
+#define PD_CALL_UTILITY_BATCH_V6    0
 typedef struct {
     pd_VecCall_t calls;
 } pd_utility_batch_V6_t;
