@@ -238,7 +238,7 @@ typedef struct {
 
 typedef struct {
     uint8_t value;
-    pd_X25519PublicKey_t private_key;
+    pd_X25519PublicKey_t public_key;
 } pd_KeyVisibility_t;
 
 typedef struct {

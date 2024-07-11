@@ -348,7 +348,7 @@ parser_error_t _readKeyVisibility(parser_context_t *c, pd_KeyVisibility_t *v) {
         case 0:  // Public
             break;
         case 1:  // Private
-            CHECK_ERROR(_readX25519PublicKey(c, &v->private_key))
+            CHECK_ERROR(_readX25519PublicKey(c, &v->public_key))
             break;
         default:
             return parser_unexpected_value;
@@ -572,11 +572,6 @@ parser_error_t _toStringCompactu64(
 
 parser_error_t _toStringProgramConfig(
     const pd_ProgramConfig_t *v, char *outValue, uint16_t outValueLen, uint8_t pageIdx, uint8_t *pageCount) {
-    if (v->_len == 0) {
-        *pageCount = 1;
-        snprintf(outValue, outValueLen, "Empty");
-        return parser_ok;
-    }
     GEN_DEF_TOSTRING_ARRAY(v->_len);
 }
 
@@ -820,7 +815,7 @@ parser_error_t _toStringCouncil(
             CHECK_ERROR(_toStringAccountId(&v->member, outValue, outValueLen, pageIdx, pageCount))
             break;
         case 2:  // Phantom
-            snprintf(outValue, outValueLen, "_Phantom");
+            snprintf(outValue, outValueLen, "Phantom");
             break;
         default:
             return parser_unexpected_value;
@@ -904,11 +899,6 @@ parser_error_t _toStringSystemOrigin(
 
 parser_error_t _toStringTssServerURL(
     const pd_TssServerURL_t *v, char *outValue, uint16_t outValueLen, uint8_t pageIdx, uint8_t *pageCount) {
-    if (v->_len == 0) {
-        *pageCount = 1;
-        snprintf(outValue, outValueLen, "Empty");
-        return parser_ok;
-    }
     GEN_DEF_TOSTRING_ARRAY(v->_len);
 }
 
@@ -1037,7 +1027,7 @@ parser_error_t _toStringKeyVisibility(
             snprintf(outValue, outValueLen, "Public");
             break;
         case 1:  // Private
-            CHECK_ERROR(_toStringX25519PublicKey(&v->private_key, outValue, outValueLen, pageIdx, pageCount))
+            CHECK_ERROR(_toStringX25519PublicKey(&v->public_key, outValue, outValueLen, pageIdx, pageCount))
             break;
         default:
             return parser_unexpected_value;
@@ -1297,11 +1287,6 @@ parser_error_t _toStringPage(const pd_Page_t *v, char *outValue, uint16_t outVal
 
 parser_error_t _toStringVerifyingKey(
     const pd_VerifyingKey_t *v, char *outValue, uint16_t outValueLen, uint8_t pageIdx, uint8_t *pageCount) {
-    if (v->_len == 0) {
-        *pageCount = 1;
-        snprintf(outValue, outValueLen, "Empty");
-        return parser_ok;
-    }
     GEN_DEF_TOSTRING_ARRAY(v->_len);
 }
 

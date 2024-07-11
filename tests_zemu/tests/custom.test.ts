@@ -14,21 +14,14 @@
  *  limitations under the License.
  ******************************************************************************* */
 
-import Zemu, { DEFAULT_START_OPTIONS } from '@zondax/zemu'
+import Zemu from '@zondax/zemu'
 import { newSubstrateApp } from '@zondax/ledger-substrate'
-import { APP_SEED, models } from './common'
+import { models, defaultOptions } from './common'
 
 // @ts-expect-error missing typings
 import ed25519 from 'ed25519-supercop'
 import { blake2bFinal, blake2bInit, blake2bUpdate } from 'blakejs'
 import { txBalances_transferAllowDeath, txSession_setKeys, txStaking_nominate, txProxy_proxy, txUtility_batch } from './zemu_blobs'
-
-const defaultOptions = {
-  ...DEFAULT_START_OPTIONS,
-  logging: true,
-  custom: `-s "${APP_SEED}"`,
-  X11: false,
-}
 
 jest.setTimeout(180000)
 

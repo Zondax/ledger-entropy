@@ -1,4 +1,4 @@
-import { IDeviceModel } from '@zondax/zemu'
+import { IDeviceModel, DEFAULT_START_OPTIONS } from '@zondax/zemu'
 
 import { resolve } from 'path'
 
@@ -15,3 +15,10 @@ export const models: IDeviceModel[] = [
   { name: 'nanosp', prefix: 'SP', path: APP_PATH_SP },
   { name: 'stax', prefix: 'ST', path: APP_PATH_ST },
 ]
+
+export const defaultOptions = {
+  ...DEFAULT_START_OPTIONS,
+  logging: true,
+  custom: `-s "${APP_SEED}"`,
+  X11: false,
+}

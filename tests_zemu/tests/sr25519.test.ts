@@ -14,9 +14,9 @@
  *  limitations under the License.
  ******************************************************************************* */
 
-import Zemu, { DEFAULT_START_OPTIONS } from '@zondax/zemu'
+import Zemu from '@zondax/zemu'
 import { newSubstrateApp } from '@zondax/ledger-substrate'
-import { APP_SEED } from './common'
+import { defaultOptions } from './common'
 import { txBalances_transferAllowDeath } from './zemu_blobs'
 
 // @ts-ignore
@@ -26,13 +26,6 @@ const addon = require('../../tests_tools/neon/native')
 
 const Resolve = require('path').resolve
 const APP_PATH = Resolve('../app/output/app_sr25519.elf')
-
-const defaultOptions = {
-  ...DEFAULT_START_OPTIONS,
-  logging: true,
-  custom: `-s "${APP_SEED}"`,
-  X11: false,
-}
 
 const expected_address = '5GjDnL4eT9fu5SayQZ6SXCZSfkDmfpPhLPm7FD44t3ZbtDYt'
 const expected_pk = 'ce50ff0f836697df684949acc4c7dc6612476f751c8ef8d2938526b88aa33640'

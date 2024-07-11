@@ -14,16 +14,9 @@
  *  limitations under the License.
  ******************************************************************************* */
 
-import Zemu, { ButtonKind, DEFAULT_START_OPTIONS, zondaxMainmenuNavigation } from '@zondax/zemu'
+import Zemu, { ButtonKind, zondaxMainmenuNavigation } from '@zondax/zemu'
 import { newSubstrateApp } from '@zondax/ledger-substrate'
-import { APP_SEED, models } from './common'
-
-const defaultOptions = {
-  ...DEFAULT_START_OPTIONS,
-  logging: true,
-  custom: `-s "${APP_SEED}"`,
-  X11: false,
-}
+import { models, defaultOptions } from './common'
 
 const expected_address = '5FfTe7upA1JD6zH82MJShcBohMjufLxkEXQD575QPqQib9DL'
 const expected_pk = '9f366ed7fd60878492ef78b2aaeb2d31afcccba895978ef1453d5432d9d28af0'
