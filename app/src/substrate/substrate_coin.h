@@ -59,7 +59,7 @@ typedef enum {
 
 #define COIN_AMOUNT_DECIMAL_PLACES     10
 
-#define COIN_GENESIS_HASH              "2ff566103dfac49018be96ef1adfac8dd1d6852ef65c984f0ee6d6a105d3aaef"
+#define COIN_GENESIS_HASH              "c590433bfed20b5fe4ff46af3ffb927c6d3f0e55872349cd405a82701a0d4fd3"
 #define COIN_NAME                      "Entropy"
 #define COIN_TICKER                    "BITS "
 

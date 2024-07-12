@@ -24,15 +24,15 @@ extern "C" {
 
 #include "parser_common.h"
 #include "stdbool.h"
-#include "substrate_dispatch_V6.h"
+#include "substrate_dispatch_V7.h"
 
 #define GEN_GETCALL(CALL)     _getpdCall_##CALL(ctx->tx_obj->transactionVersion)
 #define GEN_DEC_GETCALL(CALL) uint32_t _getpdCall_##CALL(uint32_t txVersion)
 #define GEN_DEF_GETCALL(CALL)                        \
     uint32_t _getpdCall_##CALL(uint32_t txVersion) { \
         switch (txVersion) {                         \
-            case 6:                                  \
-                return PD_CALL_##CALL##_V6;          \
+            case 7:                                  \
+                return PD_CALL_##CALL##_V7;          \
                                                      \
             default:                                 \
                 return 0;                            \
