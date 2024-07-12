@@ -28,7 +28,7 @@ Please:
 - **Do not use in production**
 - **Do not use a Ledger device with funds for development purposes.**
 - **Have a separate and marked device that is used ONLY for development and testing**
-# Entropy 6.100.x
+# Entropy 7.200.x
 
 ## System
 
@@ -431,12 +431,13 @@ Please:
 
 ## Registry
 
-| Name                    | Nano S | Nano S XL          | Nano SP/X - Stax   | Nesting | Arguments                                                                                                                                    |
-| ----------------------- | ------ | ------------------ | ------------------ | ------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| Register                |        | :heavy_check_mark: | :heavy_check_mark: |         | `AccountId`program_modification_account<br/>`KeyVisibility`key_visibility<br/>`BoundedVecProgramInstanceTMaxProgramHashes`programs_data<br/> |
-| Prune registration      |        | :heavy_check_mark: | :heavy_check_mark: |         |                                                                                                                                              |
-| Change program instance |        | :heavy_check_mark: | :heavy_check_mark: |         | `VerifyingKey`verifying_key<br/>`BoundedVecProgramInstanceTMaxProgramHashes`new_program_instance<br/>                                        |
-| Confirm register        |        | :heavy_check_mark: | :heavy_check_mark: |         | `AccountId`sig_req_account<br/>`u8`signing_subgroup<br/>`BoundedVecu8`verifying_key<br/>                                                     |
+| Name                                | Nano S | Nano S XL          | Nano SP/X - Stax   | Nesting | Arguments                                                                                                                                    |
+| ----------------------------------- | ------ | ------------------ | ------------------ | ------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| Register                            |        | :heavy_check_mark: | :heavy_check_mark: |         | `AccountId`program_modification_account<br/>`KeyVisibility`key_visibility<br/>`BoundedVecProgramInstanceTMaxProgramHashes`programs_data<br/> |
+| Prune registration                  |        | :heavy_check_mark: | :heavy_check_mark: |         |                                                                                                                                              |
+| Change program instance             |        | :heavy_check_mark: | :heavy_check_mark: |         | `VerifyingKey`verifying_key<br/>`BoundedVecProgramInstanceTMaxProgramHashes`new_program_instance<br/>                                        |
+| Change program modification account |        | :heavy_check_mark: | :heavy_check_mark: |         | `VerifyingKey`verifying_key<br/>`AccountId`new_program_mod_account<br/>                                                                      |
+| Confirm register                    |        | :heavy_check_mark: | :heavy_check_mark: |         | `AccountId`sig_req_account<br/>`u8`signing_subgroup<br/>`BoundedVecu8`verifying_key<br/>                                                     |
 
 ## Slashing
 
