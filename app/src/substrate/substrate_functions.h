@@ -34,15 +34,22 @@ parser_error_t _readCompactu32(parser_context_t *c, pd_Compactu32_t *v);
 parser_error_t _readCompactu64(parser_context_t *c, pd_Compactu64_t *v);
 parser_error_t _readCallImpl(parser_context_t *c, pd_Call_t *v, pd_MethodNested_t *m);
 
+parser_error_t _readCompactu128(parser_context_t *c, pd_Compactu128_t *v);
 parser_error_t _readProgramConfig(parser_context_t *c, pd_ProgramConfig_t *v);
 parser_error_t _readProgramPointer(parser_context_t *c, pd_ProgramPointer_t *v);
+parser_error_t _readUnlockChunkBalanceOfTMaxUnlockingChunks(parser_context_t *c,
+                                                            pd_UnlockChunkBalanceOfTMaxUnlockingChunks_t *v);
 parser_error_t _readAccountId(parser_context_t *c, pd_AccountId_t *v);
 parser_error_t _readBytes(parser_context_t *c, pd_Bytes_t *v);
 parser_error_t _readCompactAccountIndex(parser_context_t *c, pd_CompactAccountIndex_t *v);
 parser_error_t _readMembers(parser_context_t *c, pd_Members_t *v);
 parser_error_t _readProgramInstanceTMaxProgramHashes(parser_context_t *c, pd_ProgramInstanceTMaxProgramHashes_t *v);
+parser_error_t _readVecUnlockChunkBalanceOfTMaxUnlockingChunks(parser_context_t *c,
+                                                               pd_VecUnlockChunkBalanceOfTMaxUnlockingChunks_t *v);
 parser_error_t _readAccountIdLookupOfT(parser_context_t *c, pd_AccountIdLookupOfT_t *v);
 parser_error_t _readBalance(parser_context_t *c, pd_Balance_t *v);
+parser_error_t _readBoundedVecUnlockChunkBalanceOfTMaxUnlockingChunks(
+    parser_context_t *c, pd_BoundedVecUnlockChunkBalanceOfTMaxUnlockingChunks_t *v);
 parser_error_t _readCall(parser_context_t *c, pd_Call_t *v);
 parser_error_t _readCompactPerBill(parser_context_t *c, pd_CompactPerBill_t *v);
 parser_error_t _readCouncil(parser_context_t *c, pd_Council_t *v);
@@ -60,6 +67,8 @@ parser_error_t _readConfigOpBalanceOfT(parser_context_t *c, pd_ConfigOpBalanceOf
 parser_error_t _readConfigOpPerbill(parser_context_t *c, pd_ConfigOpPerbill_t *v);
 parser_error_t _readConfigOpPercent(parser_context_t *c, pd_ConfigOpPercent_t *v);
 parser_error_t _readKeyVisibility(parser_context_t *c, pd_KeyVisibility_t *v);
+parser_error_t _readOptionBoundedVecUnlockChunkBalanceOfTMaxUnlockingChunks(
+    parser_context_t *c, pd_OptionBoundedVecUnlockChunkBalanceOfTMaxUnlockingChunks_t *v);
 parser_error_t _readRewardDestination(parser_context_t *c, pd_RewardDestination_t *v);
 parser_error_t _readServerInfoAccountId(parser_context_t *c, pd_ServerInfoAccountId_t *v);
 parser_error_t _readValidatorPrefs(parser_context_t *c, pd_ValidatorPrefs_t *v);
@@ -73,6 +82,8 @@ parser_error_t _readConfigOpu32(parser_context_t *c, pd_ConfigOpu32_t *v);
 parser_error_t _readEraIndex(parser_context_t *c, pd_EraIndex_t *v);
 parser_error_t _readHash(parser_context_t *c, pd_Hash_t *v);
 parser_error_t _readKeys(parser_context_t *c, pd_Keys_t *v);
+parser_error_t _readOptionAccountId(parser_context_t *c, pd_OptionAccountId_t *v);
+parser_error_t _readOptionBalance(parser_context_t *c, pd_OptionBalance_t *v);
 parser_error_t _readOptionProxyType(parser_context_t *c, pd_OptionProxyType_t *v);
 parser_error_t _readPage(parser_context_t *c, pd_Page_t *v);
 parser_error_t _readVecAccountId(parser_context_t *c, pd_VecAccountId_t *v);
@@ -101,11 +112,20 @@ parser_error_t _toStringCompactu32(
 parser_error_t _toStringCompactu64(
     const pd_Compactu64_t *v, char *outValue, uint16_t outValueLen, uint8_t pageIdx, uint8_t *pageCount);
 
+parser_error_t _toStringCompactu128(
+    const pd_Compactu128_t *v, char *outValue, uint16_t outValueLen, uint8_t pageIdx, uint8_t *pageCount);
+
 parser_error_t _toStringProgramConfig(
     const pd_ProgramConfig_t *v, char *outValue, uint16_t outValueLen, uint8_t pageIdx, uint8_t *pageCount);
 
 parser_error_t _toStringProgramPointer(
     const pd_ProgramPointer_t *v, char *outValue, uint16_t outValueLen, uint8_t pageIdx, uint8_t *pageCount);
+
+parser_error_t _toStringUnlockChunkBalanceOfTMaxUnlockingChunks(const pd_UnlockChunkBalanceOfTMaxUnlockingChunks_t *v,
+                                                                char *outValue,
+                                                                uint16_t outValueLen,
+                                                                uint8_t pageIdx,
+                                                                uint8_t *pageCount);
 
 parser_error_t _toStringAccountId(
     const pd_AccountId_t *v, char *outValue, uint16_t outValueLen, uint8_t pageIdx, uint8_t *pageCount);
@@ -125,11 +145,24 @@ parser_error_t _toStringProgramInstanceTMaxProgramHashes(const pd_ProgramInstanc
                                                          uint8_t pageIdx,
                                                          uint8_t *pageCount);
 
+parser_error_t _toStringVecUnlockChunkBalanceOfTMaxUnlockingChunks(const pd_VecUnlockChunkBalanceOfTMaxUnlockingChunks_t *v,
+                                                                   char *outValue,
+                                                                   uint16_t outValueLen,
+                                                                   uint8_t pageIdx,
+                                                                   uint8_t *pageCount);
+
 parser_error_t _toStringAccountIdLookupOfT(
     const pd_AccountIdLookupOfT_t *v, char *outValue, uint16_t outValueLen, uint8_t pageIdx, uint8_t *pageCount);
 
 parser_error_t _toStringBalance(
     const pd_Balance_t *v, char *outValue, uint16_t outValueLen, uint8_t pageIdx, uint8_t *pageCount);
+
+parser_error_t _toStringBoundedVecUnlockChunkBalanceOfTMaxUnlockingChunks(
+    const pd_BoundedVecUnlockChunkBalanceOfTMaxUnlockingChunks_t *v,
+    char *outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t *pageCount);
 
 parser_error_t _toStringCall(const pd_Call_t *v, char *outValue, uint16_t outValueLen, uint8_t pageIdx, uint8_t *pageCount);
 
@@ -184,6 +217,13 @@ parser_error_t _toStringConfigOpPercent(
 parser_error_t _toStringKeyVisibility(
     const pd_KeyVisibility_t *v, char *outValue, uint16_t outValueLen, uint8_t pageIdx, uint8_t *pageCount);
 
+parser_error_t _toStringOptionBoundedVecUnlockChunkBalanceOfTMaxUnlockingChunks(
+    const pd_OptionBoundedVecUnlockChunkBalanceOfTMaxUnlockingChunks_t *v,
+    char *outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t *pageCount);
+
 parser_error_t _toStringRewardDestination(
     const pd_RewardDestination_t *v, char *outValue, uint16_t outValueLen, uint8_t pageIdx, uint8_t *pageCount);
 
@@ -220,6 +260,12 @@ parser_error_t _toStringEraIndex(
 parser_error_t _toStringHash(const pd_Hash_t *v, char *outValue, uint16_t outValueLen, uint8_t pageIdx, uint8_t *pageCount);
 
 parser_error_t _toStringKeys(const pd_Keys_t *v, char *outValue, uint16_t outValueLen, uint8_t pageIdx, uint8_t *pageCount);
+
+parser_error_t _toStringOptionAccountId(
+    const pd_OptionAccountId_t *v, char *outValue, uint16_t outValueLen, uint8_t pageIdx, uint8_t *pageCount);
+
+parser_error_t _toStringOptionBalance(
+    const pd_OptionBalance_t *v, char *outValue, uint16_t outValueLen, uint8_t pageIdx, uint8_t *pageCount);
 
 parser_error_t _toStringOptionProxyType(
     const pd_OptionProxyType_t *v, char *outValue, uint16_t outValueLen, uint8_t pageIdx, uint8_t *pageCount);

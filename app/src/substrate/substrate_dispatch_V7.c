@@ -330,6 +330,14 @@ __Z_INLINE parser_error_t _readMethod_staking_update_payee_V7(parser_context_t *
     return parser_ok;
 }
 
+__Z_INLINE parser_error_t _readMethod_staking_restore_ledger_V7(parser_context_t *c, pd_staking_restore_ledger_V7_t *m) {
+    CHECK_ERROR(_readAccountId(c, &m->stash))
+    CHECK_ERROR(_readOptionAccountId(c, &m->maybe_controller))
+    CHECK_ERROR(_readOptionBalance(c, &m->maybe_total))
+    CHECK_ERROR(_readOptionBoundedVecUnlockChunkBalanceOfTMaxUnlockingChunks(c, &m->maybe_unlocking))
+    return parser_ok;
+}
+
 __Z_INLINE parser_error_t _readMethod_stakingextension_change_endpoint_V7(parser_context_t *c,
                                                                           pd_stakingextension_change_endpoint_V7_t *m) {
     CHECK_ERROR(_readVecu8(c, &m->endpoint))
@@ -651,6 +659,9 @@ parser_error_t _readMethod_V7(parser_context_t *c, uint8_t moduleIdx, uint8_t ca
         case 2843: /* module 11 call 27 */
             CHECK_ERROR(_readMethod_staking_update_payee_V7(c, &method->basic.staking_update_payee_V7))
             break;
+        case 2845: /* module 11 call 29 */
+            CHECK_ERROR(_readMethod_staking_restore_ledger_V7(c, &method->basic.staking_restore_ledger_V7))
+            break;
         case 3072: /* module 12 call 0 */
             CHECK_ERROR(
                 _readMethod_stakingextension_change_endpoint_V7(c, &method->basic.stakingextension_change_endpoint_V7))
@@ -884,6 +895,8 @@ const char *_getMethod_Name_V7_ParserFull(uint16_t callPrivIdx) {
             return STR_ME_PAYOUT_STAKERS_BY_PAGE;
         case 2843: /* module 11 call 27 */
             return STR_ME_UPDATE_PAYEE;
+        case 2845: /* module 11 call 29 */
+            return STR_ME_RESTORE_LEDGER;
         case 3072: /* module 12 call 0 */
             return STR_ME_CHANGE_ENDPOINT;
         case 3073: /* module 12 call 1 */
@@ -1045,6 +1058,8 @@ uint8_t _getMethod_NumItems_V7(uint8_t moduleIdx, uint8_t callIdx) {
             return 3;
         case 2843: /* module 11 call 27 */
             return 1;
+        case 2845: /* module 11 call 29 */
+            return 4;
         case 3072: /* module 12 call 0 */
             return 1;
         case 3073: /* module 12 call 1 */
@@ -1492,6 +1507,19 @@ const char *_getMethod_ItemName_V7(uint8_t moduleIdx, uint8_t callIdx, uint8_t i
             switch (itemIdx) {
                 case 0:
                     return STR_IT_controller;
+                default:
+                    return NULL;
+            }
+        case 2845: /* module 11 call 29 */
+            switch (itemIdx) {
+                case 0:
+                    return STR_IT_stash;
+                case 1:
+                    return STR_IT_maybe_controller;
+                case 2:
+                    return STR_IT_maybe_total;
+                case 3:
+                    return STR_IT_maybe_unlocking;
                 default:
                     return NULL;
             }
@@ -2176,6 +2204,26 @@ parser_error_t _getMethod_ItemValue_V7(pd_Method_V7_t *m,
                 default:
                     return parser_no_data;
             }
+        case 2845: /* module 11 call 29 */
+            switch (itemIdx) {
+                case 0: /* staking_restore_ledger_V7 - stash */;
+                    return _toStringAccountId(&m->basic.staking_restore_ledger_V7.stash, outValue, outValueLen, pageIdx,
+                                              pageCount);
+                case 1: /* staking_restore_ledger_V7 - maybe_controller */;
+                    return _toStringOptionAccountId(&m->basic.staking_restore_ledger_V7.maybe_controller, outValue,
+                                                    outValueLen, pageIdx, pageCount);
+                case 2: /* staking_restore_ledger_V7 - maybe_total */;
+                    return _toStringOptionBalance(&m->basic.staking_restore_ledger_V7.maybe_total, outValue, outValueLen,
+                                                  pageIdx, pageCount);
+                case 3: /* staking_restore_ledger_V7 - maybe_unlocking */;
+                    return _toStringOptionBoundedVecUnlockChunkBalanceOfTMaxUnlockingChunks(&m->basic
+                                                                                                 .staking_restore_ledger_V7
+                                                                                                 .maybe_unlocking,
+                                                                                            outValue, outValueLen, pageIdx,
+                                                                                            pageCount);
+                default:
+                    return parser_no_data;
+            }
         case 3072: /* module 12 call 0 */
             switch (itemIdx) {
                 case 0: /* stakingextension_change_endpoint_V7 - endpoint */;
@@ -2511,6 +2559,7 @@ bool _getMethod_IsNestingSupported_V7(uint8_t moduleIdx, uint8_t callIdx) {
         case 2841:   // Staking:Set min commission
         case 2842:   // Staking:Payout stakers by page
         case 2843:   // Staking:Update payee
+        case 2845:   // Staking:Restore ledger
         case 3072:   // StakingExtension:Change endpoint
         case 3073:   // StakingExtension:Change threshold accounts
         case 3074:   // StakingExtension:Withdraw Unbonded

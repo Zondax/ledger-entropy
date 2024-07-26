@@ -80,6 +80,7 @@ static const char *STR_ME_FORCE_APPLY_MIN_COMMISSION = "Force apply min commissi
 static const char *STR_ME_SET_MIN_COMMISSION = "Set min commission";
 static const char *STR_ME_PAYOUT_STAKERS_BY_PAGE = "Payout stakers by page";
 static const char *STR_ME_UPDATE_PAYEE = "Update payee";
+static const char *STR_ME_RESTORE_LEDGER = "Restore ledger";
 static const char *STR_ME_CHANGE_ENDPOINT = "Change endpoint";
 static const char *STR_ME_CHANGE_THRESHOLD_ACCOUNTS = "Change threshold accounts";
 static const char *STR_ME_DECLARE_SYNCED = "Declare synced";

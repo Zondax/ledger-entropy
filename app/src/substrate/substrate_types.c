@@ -99,6 +99,9 @@ parser_error_t _readCallImpl(parser_context_t *c, pd_Call_t *v, pd_MethodNested_
 ///////////////////////////////////
 ///////////////////////////////////
 ///////////////////////////////////
+parser_error_t _readCompactu128(parser_context_t *c, pd_Compactu128_t *v) {
+    return _readCompactInt(c, v);
+}
 
 parser_error_t _readProgramConfig(parser_context_t *c, pd_ProgramConfig_t *v) {
     CHECK_INPUT()
@@ -113,6 +116,16 @@ parser_error_t _readProgramConfig(parser_context_t *c, pd_ProgramConfig_t *v) {
 }
 
 parser_error_t _readProgramPointer(parser_context_t *c, pd_ProgramPointer_t *v){GEN_DEF_READARRAY(32)}
+
+parser_error_t
+    _readUnlockChunkBalanceOfTMaxUnlockingChunks(parser_context_t *c, pd_UnlockChunkBalanceOfTMaxUnlockingChunks_t *v) {
+    CHECK_INPUT()
+
+    CHECK_ERROR(_readCompactu128(c, &v->value))
+    CHECK_ERROR(_readCompactu32(c, &v->era))
+
+    return parser_ok;
+}
 
 parser_error_t _readAccountId(parser_context_t *c, pd_AccountId_t *v){GEN_DEF_READARRAY(32)}
 
@@ -175,6 +188,14 @@ parser_error_t _readAccountIdLookupOfT(parser_context_t *c, pd_AccountIdLookupOf
 }
 
 parser_error_t _readBalance(parser_context_t *c, pd_Balance_t *v){GEN_DEF_READARRAY(16)}
+
+parser_error_t
+    _readBoundedVecUnlockChunkBalanceOfTMaxUnlockingChunks(parser_context_t *c,
+                                                           pd_BoundedVecUnlockChunkBalanceOfTMaxUnlockingChunks_t *v) {
+    CHECK_INPUT()
+    CHECK_ERROR(_readVecUnlockChunkBalanceOfTMaxUnlockingChunks(c, &v->maybe_unlocking));
+    return parser_ok;
+}
 
 parser_error_t _readCall(parser_context_t *c, pd_Call_t *v) {
     pd_MethodNested_t _method;
@@ -473,6 +494,10 @@ parser_error_t _readVerifyingKey(parser_context_t *c, pd_VerifyingKey_t *v) {
     return parser_ok;
 }
 
+parser_error_t _readVecUnlockChunkBalanceOfTMaxUnlockingChunks(parser_context_t *c,
+                                                               pd_VecUnlockChunkBalanceOfTMaxUnlockingChunks_t *v){
+    GEN_DEF_READVECTOR(UnlockChunkBalanceOfTMaxUnlockingChunks)}
+
 parser_error_t _readVecProgramInstanceTMaxProgramHashes(parser_context_t *c, pd_VecProgramInstanceTMaxProgramHashes_t *v){
     GEN_DEF_READVECTOR(ProgramInstanceTMaxProgramHashes)}
 
@@ -484,6 +509,34 @@ parser_error_t _readVecAccountId(parser_context_t *c, pd_VecAccountId_t *v){GEN_
 parser_error_t _readVecu32(parser_context_t *c, pd_Vecu32_t *v){GEN_DEF_READVECTOR(u32)}
 
 parser_error_t _readVecu8(parser_context_t *c, pd_Vecu8_t *v){GEN_DEF_READVECTOR(u8)}
+
+parser_error_t _readOptionBoundedVecUnlockChunkBalanceOfTMaxUnlockingChunks(
+    parser_context_t *c, pd_OptionBoundedVecUnlockChunkBalanceOfTMaxUnlockingChunks_t *v) {
+    CHECK_INPUT()
+    CHECK_ERROR(_readUInt8(c, &v->some))
+    if (v->some > 0) {
+        CHECK_ERROR(_readBoundedVecUnlockChunkBalanceOfTMaxUnlockingChunks(c, &v->contained))
+    }
+    return parser_ok;
+}
+
+parser_error_t _readOptionAccountId(parser_context_t *c, pd_OptionAccountId_t *v) {
+    CHECK_INPUT()
+    CHECK_ERROR(_readUInt8(c, &v->some))
+    if (v->some > 0) {
+        CHECK_ERROR(_readAccountId(c, &v->contained))
+    }
+    return parser_ok;
+}
+
+parser_error_t _readOptionBalance(parser_context_t *c, pd_OptionBalance_t *v) {
+    CHECK_INPUT()
+    CHECK_ERROR(_readUInt8(c, &v->some))
+    if (v->some > 0) {
+        CHECK_ERROR(_readBalance(c, &v->contained))
+    }
+    return parser_ok;
+}
 
 parser_error_t _readOptionProxyType(parser_context_t *c, pd_OptionProxyType_t *v) {
     CHECK_INPUT()
@@ -570,6 +623,11 @@ parser_error_t _toStringCompactu64(
 ///////////////////////////////////
 ///////////////////////////////////
 
+parser_error_t _toStringCompactu128(
+    const pd_Compactu128_t *v, char *outValue, uint16_t outValueLen, uint8_t pageIdx, uint8_t *pageCount) {
+    return _toStringCompactInt(v, 0, false, "", "", outValue, outValueLen, pageIdx, pageCount);
+}
+
 parser_error_t _toStringProgramConfig(
     const pd_ProgramConfig_t *v, char *outValue, uint16_t outValueLen, uint8_t pageIdx, uint8_t *pageCount) {
     GEN_DEF_TOSTRING_ARRAY(v->_len);
@@ -581,8 +639,43 @@ parser_error_t _toStringProgramPointer(const pd_ProgramPointer_t *v,
                                        uint8_t pageIdx,
                                        uint8_t *pageCount){GEN_DEF_TOSTRING_ARRAY(32)}
 
-parser_error_t
-    _toStringAccountId(const pd_AccountId_t *v, char *outValue, uint16_t outValueLen, uint8_t pageIdx, uint8_t *pageCount) {
+parser_error_t _toStringUnlockChunkBalanceOfTMaxUnlockingChunks(const pd_UnlockChunkBalanceOfTMaxUnlockingChunks_t *v,
+                                                                char *outValue,
+                                                                uint16_t outValueLen,
+                                                                uint8_t pageIdx,
+                                                                uint8_t *pageCount) {
+    CLEAN_AND_CHECK()
+
+    // First measure number of pages
+    uint8_t pages[2] = {0};
+    CHECK_ERROR(_toStringCompactu128(&v->value, outValue, outValueLen, 0, &pages[0]))
+    CHECK_ERROR(_toStringCompactu32(&v->era, outValue, outValueLen, 0, &pages[1]))
+
+    *pageCount = 0;
+    for (uint8_t i = 0; i < (uint8_t)sizeof(pages); i++) {
+        *pageCount += pages[i];
+    }
+
+    if (pageIdx >= *pageCount) {
+        return parser_display_idx_out_of_range;
+    }
+
+    if (pageIdx < pages[0]) {
+        CHECK_ERROR(_toStringCompactu128(&v->value, outValue, outValueLen, pageIdx, &pages[0]))
+        return parser_ok;
+    }
+    pageIdx -= pages[0];
+
+    if (pageIdx < pages[1]) {
+        CHECK_ERROR(_toStringCompactu32(&v->era, outValue, outValueLen, pageIdx, &pages[1]))
+        return parser_ok;
+    }
+
+    return parser_display_idx_out_of_range;
+}
+
+parser_error_t _toStringAccountId(
+    const pd_AccountId_t *v, char *outValue, uint16_t outValueLen, uint8_t pageIdx, uint8_t *pageCount) {
     return _toStringPubkeyAsAddress(v->_ptr, outValue, outValueLen, pageIdx, pageCount);
 }
 
@@ -721,6 +814,37 @@ parser_error_t _toStringBalance(
 
     pageString(outValue, outValueLen, bufferUI, pageIdx, pageCount);
     return parser_ok;
+}
+
+parser_error_t _toStringBoundedVecUnlockChunkBalanceOfTMaxUnlockingChunks(
+    const pd_BoundedVecUnlockChunkBalanceOfTMaxUnlockingChunks_t *v,
+    char *outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t *pageCount) {
+    CLEAN_AND_CHECK()
+
+    // First measure number of pages
+    uint8_t pages[1] = {0};
+    CHECK_ERROR(
+        _toStringVecUnlockChunkBalanceOfTMaxUnlockingChunks(&v->maybe_unlocking, outValue, outValueLen, 0, &pages[0]))
+
+    *pageCount = 0;
+    for (uint8_t i = 0; i < (uint8_t)sizeof(pages); i++) {
+        *pageCount += pages[i];
+    }
+
+    if (pageIdx >= *pageCount) {
+        return parser_display_idx_out_of_range;
+    }
+
+    if (pageIdx < pages[0]) {
+        CHECK_ERROR(_toStringVecUnlockChunkBalanceOfTMaxUnlockingChunks(&v->maybe_unlocking, outValue, outValueLen, pageIdx,
+                                                                        &pages[0]))
+        return parser_ok;
+    }
+
+    return parser_display_idx_out_of_range;
 }
 
 parser_error_t _toStringCall(const pd_Call_t *v, char *outValue, uint16_t outValueLen, uint8_t pageIdx, uint8_t *pageCount) {
@@ -1290,6 +1414,14 @@ parser_error_t _toStringVerifyingKey(
     GEN_DEF_TOSTRING_ARRAY(v->_len);
 }
 
+parser_error_t _toStringVecUnlockChunkBalanceOfTMaxUnlockingChunks(const pd_VecUnlockChunkBalanceOfTMaxUnlockingChunks_t *v,
+                                                                   char *outValue,
+                                                                   uint16_t outValueLen,
+                                                                   uint8_t pageIdx,
+                                                                   uint8_t *pageCount) {
+    GEN_DEF_TOSTRING_VECTOR(UnlockChunkBalanceOfTMaxUnlockingChunks);
+}
+
 parser_error_t _toStringVecProgramInstanceTMaxProgramHashes(const pd_VecProgramInstanceTMaxProgramHashes_t *v,
                                                             char *outValue,
                                                             uint16_t outValueLen,
@@ -1316,6 +1448,50 @@ parser_error_t _toStringVecu32(
 parser_error_t _toStringVecu8(
     const pd_Vecu8_t *v, char *outValue, uint16_t outValueLen, uint8_t pageIdx, uint8_t *pageCount) {
     GEN_DEF_TOSTRING_VECTOR(u8);
+}
+
+parser_error_t _toStringOptionBoundedVecUnlockChunkBalanceOfTMaxUnlockingChunks(
+    const pd_OptionBoundedVecUnlockChunkBalanceOfTMaxUnlockingChunks_t *v,
+    char *outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t *pageCount) {
+    CLEAN_AND_CHECK()
+
+    *pageCount = 1;
+    if (v->some > 0) {
+        CHECK_ERROR(_toStringBoundedVecUnlockChunkBalanceOfTMaxUnlockingChunks(&v->contained, outValue, outValueLen, pageIdx,
+                                                                               pageCount));
+    } else {
+        snprintf(outValue, outValueLen, "None");
+    }
+    return parser_ok;
+}
+
+parser_error_t _toStringOptionAccountId(
+    const pd_OptionAccountId_t *v, char *outValue, uint16_t outValueLen, uint8_t pageIdx, uint8_t *pageCount) {
+    CLEAN_AND_CHECK()
+
+    *pageCount = 1;
+    if (v->some > 0) {
+        CHECK_ERROR(_toStringAccountId(&v->contained, outValue, outValueLen, pageIdx, pageCount));
+    } else {
+        snprintf(outValue, outValueLen, "None");
+    }
+    return parser_ok;
+}
+
+parser_error_t _toStringOptionBalance(
+    const pd_OptionBalance_t *v, char *outValue, uint16_t outValueLen, uint8_t pageIdx, uint8_t *pageCount) {
+    CLEAN_AND_CHECK()
+
+    *pageCount = 1;
+    if (v->some > 0) {
+        CHECK_ERROR(_toStringBalance(&v->contained, outValue, outValueLen, pageIdx, pageCount));
+    } else {
+        snprintf(outValue, outValueLen, "None");
+    }
+    return parser_ok;
 }
 
 parser_error_t _toStringOptionProxyType(

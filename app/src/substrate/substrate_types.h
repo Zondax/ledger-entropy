@@ -112,6 +112,8 @@ typedef struct {
     compactInt_t value;
 } pd_CompactBalance_t;
 
+typedef compactInt_t pd_Compactu128_t;
+
 typedef struct {
     uint64_t _len;
     const uint8_t *_ptr;
@@ -120,6 +122,12 @@ typedef struct {
 typedef struct {
     const uint8_t *_ptr;
 } pd_ProgramPointer_t;
+
+typedef struct {
+    pd_Compactu128_t value;
+    pd_Compactu32_t era;
+
+} pd_UnlockChunkBalanceOfTMaxUnlockingChunks_t;
 
 typedef struct {
     const uint8_t *_ptr;
@@ -146,6 +154,12 @@ typedef struct {
 } pd_ProgramInstanceTMaxProgramHashes_t;
 
 typedef struct {
+    uint64_t _len;
+    const uint8_t *_ptr;
+    uint64_t _lenBuffer;
+} pd_VecUnlockChunkBalanceOfTMaxUnlockingChunks_t;
+
+typedef struct {
     uint8_t value;
     union {
         pd_AccountId_t id;
@@ -158,6 +172,11 @@ typedef struct {
 typedef struct {
     const uint8_t *_ptr;
 } pd_Balance_t;
+
+typedef struct {
+    pd_VecUnlockChunkBalanceOfTMaxUnlockingChunks_t maybe_unlocking;
+
+} pd_BoundedVecUnlockChunkBalanceOfTMaxUnlockingChunks_t;
 
 typedef struct {
     pd_CallIndex_t callIndex;
@@ -242,6 +261,11 @@ typedef struct {
 } pd_KeyVisibility_t;
 
 typedef struct {
+    uint8_t some;
+    pd_BoundedVecUnlockChunkBalanceOfTMaxUnlockingChunks_t contained;
+} pd_OptionBoundedVecUnlockChunkBalanceOfTMaxUnlockingChunks_t;
+
+typedef struct {
     uint8_t value;
     pd_AccountId_t accountId;
 } pd_RewardDestination_t;
@@ -306,6 +330,16 @@ typedef struct {
 typedef struct {
     const uint8_t *_ptr;
 } pd_Keys_t;
+
+typedef struct {
+    uint8_t some;
+    pd_AccountId_t contained;
+} pd_OptionAccountId_t;
+
+typedef struct {
+    uint8_t some;
+    pd_Balance_t contained;
+} pd_OptionBalance_t;
 
 typedef struct {
     uint8_t some;

@@ -202,6 +202,14 @@ typedef struct {
     pd_AccountId_t controller;
 } pd_staking_update_payee_V7_t;
 
+#define PD_CALL_STAKING_RESTORE_LEDGER_V7 29
+typedef struct {
+    pd_AccountId_t stash;
+    pd_OptionAccountId_t maybe_controller;
+    pd_OptionBalance_t maybe_total;
+    pd_OptionBoundedVecUnlockChunkBalanceOfTMaxUnlockingChunks_t maybe_unlocking;
+} pd_staking_restore_ledger_V7_t;
+
 #define PD_CALL_STAKINGEXTENSION_CHANGE_ENDPOINT_V7 0
 typedef struct {
     pd_Vecu8_t endpoint;
@@ -337,6 +345,7 @@ typedef union {
     pd_staking_set_min_commission_V7_t staking_set_min_commission_V7;
     pd_staking_payout_stakers_by_page_V7_t staking_payout_stakers_by_page_V7;
     pd_staking_update_payee_V7_t staking_update_payee_V7;
+    pd_staking_restore_ledger_V7_t staking_restore_ledger_V7;
     pd_stakingextension_change_endpoint_V7_t stakingextension_change_endpoint_V7;
     pd_stakingextension_change_threshold_accounts_V7_t stakingextension_change_threshold_accounts_V7;
     pd_stakingextension_withdraw_unbonded_V7_t stakingextension_withdraw_unbonded_V7;
