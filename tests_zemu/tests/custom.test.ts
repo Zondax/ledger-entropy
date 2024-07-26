@@ -91,7 +91,7 @@ describe.each(TXNS)('Transactions', function (data) {
   })
 })
 
-test.only.each(models)('balances transfer expert', async function (m) {
+test.concurrent.each(models)('balances transfer expert', async function (m) {
   const sim = new Zemu(m.path)
   try {
     await sim.start({ ...defaultOptions, model: m.name })
