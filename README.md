@@ -28,7 +28,7 @@ Please:
 - **Do not use in production**
 - **Do not use a Ledger device with funds for development purposes.**
 - **Have a separate and marked device that is used ONLY for development and testing**
-# Entropy 7.200.x
+# Entropy 8.300.x
 
 ## System
 
@@ -137,7 +137,7 @@ Please:
 | Payout stakers by page     |                    | :heavy_check_mark: | :heavy_check_mark: |                    | `AccountId`validator_stash<br/>`EraIndex`era<br/>`Page`page<br/>                                                                                                                                                                          |
 | Update payee               |                    | :heavy_check_mark: | :heavy_check_mark: |                    | `AccountId`controller<br/>                                                                                                                                                                                                                |
 | Deprecate controller batch |                    |                    |                    |                    | `BoundedVecAccountIdMaxControllersInDeprecationBatch`controllers<br/>                                                                                                                                                                     |
-| Restore ledger             |                    |                    |                    |                    | `AccountId`stash<br/>`OptionAccountId`maybe_controller<br/>`OptionBalance`maybe_total<br/>`OptionBoundedVecUnlockChunkBalanceOfTMaxUnlockingChunks`maybe_unlocking<br/>                                                                   |
+| Restore ledger             |                    | :heavy_check_mark: | :heavy_check_mark: |                    | `AccountId`stash<br/>`OptionAccountId`maybe_controller<br/>`OptionBalance`maybe_total<br/>`OptionBoundedVecUnlockChunkBalanceOfTMaxUnlockingChunks`maybe_unlocking<br/>                                                                   |
 
 ## StakingExtension
 
@@ -145,9 +145,12 @@ Please:
 | ------------------------- | ------ | ------------------ | ------------------ | ------- | ------------------------------------------------------------------ |
 | Change endpoint           |        | :heavy_check_mark: | :heavy_check_mark: |         | `Vecu8`endpoint<br/>                                               |
 | Change threshold accounts |        | :heavy_check_mark: | :heavy_check_mark: |         | `AccountId`tss_account<br/>`X25519PublicKey`x25519_public_key<br/> |
+| Unbond                    |        | :heavy_check_mark: | :heavy_check_mark: |         | `Compactu128`amount<br/>                                           |
+| Chill                     |        | :heavy_check_mark: | :heavy_check_mark: |         |                                                                    |
 | Withdraw Unbonded         |        | :heavy_check_mark: | :heavy_check_mark: |         | `u32`num_slashing_spans<br/>                                       |
 | Validate                  |        | :heavy_check_mark: | :heavy_check_mark: |         | `ValidatorPrefs`prefs<br/>`ServerInfoAccountId`server_info<br/>    |
 | Declare synced            |        | :heavy_check_mark: | :heavy_check_mark: |         | `bool`synced<br/>                                                  |
+| Confirm key reshare       |        | :heavy_check_mark: | :heavy_check_mark: |         |                                                                    |
 
 ## Session
 
@@ -431,13 +434,13 @@ Please:
 
 ## Registry
 
-| Name                                | Nano S | Nano S XL          | Nano SP/X - Stax   | Nesting | Arguments                                                                                                                                    |
-| ----------------------------------- | ------ | ------------------ | ------------------ | ------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| Register                            |        | :heavy_check_mark: | :heavy_check_mark: |         | `AccountId`program_modification_account<br/>`KeyVisibility`key_visibility<br/>`BoundedVecProgramInstanceTMaxProgramHashes`programs_data<br/> |
-| Prune registration                  |        | :heavy_check_mark: | :heavy_check_mark: |         |                                                                                                                                              |
-| Change program instance             |        | :heavy_check_mark: | :heavy_check_mark: |         | `VerifyingKey`verifying_key<br/>`BoundedVecProgramInstanceTMaxProgramHashes`new_program_instance<br/>                                        |
-| Change program modification account |        | :heavy_check_mark: | :heavy_check_mark: |         | `VerifyingKey`verifying_key<br/>`AccountId`new_program_mod_account<br/>                                                                      |
-| Confirm register                    |        | :heavy_check_mark: | :heavy_check_mark: |         | `AccountId`sig_req_account<br/>`u8`signing_subgroup<br/>`BoundedVecu8`verifying_key<br/>                                                     |
+| Name                                | Nano S | Nano S XL          | Nano SP/X - Stax   | Nesting | Arguments                                                                                                  |
+| ----------------------------------- | ------ | ------------------ | ------------------ | ------- | ---------------------------------------------------------------------------------------------------------- |
+| Jump start network                  |        | :heavy_check_mark: | :heavy_check_mark: |         |                                                                                                            |
+| Confirm jump start                  |        | :heavy_check_mark: | :heavy_check_mark: |         | `VerifyingKey`verifying_key<br/>                                                                           |
+| Register                            |        | :heavy_check_mark: | :heavy_check_mark: |         | `AccountId`program_modification_account<br/>`BoundedVecProgramInstanceTMaxProgramHashes`programs_data<br/> |
+| Change program instance             |        | :heavy_check_mark: | :heavy_check_mark: |         | `VerifyingKey`verifying_key<br/>`BoundedVecProgramInstanceTMaxProgramHashes`new_program_instance<br/>      |
+| Change program modification account |        | :heavy_check_mark: | :heavy_check_mark: |         | `VerifyingKey`verifying_key<br/>`AccountId`new_program_mod_account<br/>                                    |
 
 ## Slashing
 
@@ -446,10 +449,10 @@ Please:
 
 ## Programs
 
-| Name           | Nano S | Nano S XL          | Nano SP/X - Stax   | Nesting | Arguments                                                                                                               |
-| -------------- | ------ | ------------------ | ------------------ | ------- | ----------------------------------------------------------------------------------------------------------------------- |
-| Set program    |        | :heavy_check_mark: | :heavy_check_mark: |         | `Vecu8`new_program<br/>`Vecu8`configuration_schema<br/>`Vecu8`auxiliary_data_schema<br/>`Vecu8`oracle_data_pointer<br/> |
-| Remove program |        | :heavy_check_mark: | :heavy_check_mark: |         | `Hash`program_hash<br/>                                                                                                 |
+| Name           | Nano S | Nano S XL          | Nano SP/X - Stax   | Nesting | Arguments                                                                                                                                      |
+| -------------- | ------ | ------------------ | ------------------ | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| Set program    |        | :heavy_check_mark: | :heavy_check_mark: |         | `Vecu8`new_program<br/>`Vecu8`configuration_schema<br/>`Vecu8`auxiliary_data_schema<br/>`Vecu8`oracle_data_pointer<br/>`u8`version_number<br/> |
+| Remove program |        | :heavy_check_mark: | :heavy_check_mark: |         | `Hash`program_hash<br/>                                                                                                                        |
 
 ## TransactionPause
 
@@ -465,7 +468,20 @@ Please:
 
 ## Parameters
 
-| Name                                 | Nano S | Nano S XL | Nano SP/X - Stax | Nesting | Arguments                               |
-| ------------------------------------ | ------ | --------- | ---------------- | ------- | --------------------------------------- |
-| Change request limit                 |        |           |                  |         | `u32`request_limit<br/>                 |
-| Change max instructions per programs |        |           |                  |         | `u64`max_instructions_per_programs<br/> |
+| Name                                 | Nano S | Nano S XL | Nano SP/X - Stax | Nesting | Arguments                                |
+| ------------------------------------ | ------ | --------- | ---------------- | ------- | ---------------------------------------- |
+| Change request limit                 |        |           |                  |         | `u32`request_limit<br/>                  |
+| Change max instructions per programs |        |           |                  |         | `u64`max_instructions_per_programs<br/>  |
+| Change signers info                  |        |           |                  |         | `u8`total_signers<br/>`u8`threshold<br/> |
+| Change accepted mrtd values          |        |           |                  |         | `MrtdValues`accepted_mrtd_values<br/>    |
+
+## Oracle
+
+| Name | Nano S | Nano S XL | Nano SP/X - Stax | Nesting | Arguments |
+| ---- | ------ | --------- | ---------------- | ------- | --------- |
+
+## Attestation
+
+| Name   | Nano S | Nano S XL | Nano SP/X - Stax | Nesting | Arguments         |
+| ------ | ------ | --------- | ---------------- | ------- | ----------------- |
+| Attest |        |           |                  |         | `Vecu8`quote<br/> |
