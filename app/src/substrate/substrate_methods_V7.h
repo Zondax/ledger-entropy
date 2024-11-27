@@ -31,17 +31,17 @@ extern "C" {
 #include "bolos_target.h"
 #endif
 
-#define PD_CALL_SYSTEM_V7           1
-#define PD_CALL_UTILITY_V7          2
-#define PD_CALL_BALANCES_V7         7
-#define PD_CALL_STAKING_V7          11
+#define PD_CALL_SYSTEM_V7 1
+#define PD_CALL_UTILITY_V7 2
+#define PD_CALL_BALANCES_V7 7
+#define PD_CALL_STAKING_V7 11
 #define PD_CALL_STAKINGEXTENSION_V7 12
-#define PD_CALL_SESSION_V7          20
-#define PD_CALL_PROXY_V7            44
-#define PD_CALL_REGISTRY_V7         51
-#define PD_CALL_PROGRAMS_V7         53
+#define PD_CALL_SESSION_V7 20
+#define PD_CALL_PROXY_V7 44
+#define PD_CALL_REGISTRY_V7 51
+#define PD_CALL_PROGRAMS_V7 53
 
-#define PD_CALL_UTILITY_BATCH_V7    0
+#define PD_CALL_UTILITY_BATCH_V7 0
 typedef struct {
     pd_VecCall_t calls;
 } pd_utility_batch_V7_t;
